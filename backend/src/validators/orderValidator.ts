@@ -1,6 +1,6 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 
-export const createOrderValidator = celebrate({
+const createOrderValidator = celebrate({
   [Segments.BODY]: Joi.object().keys({
     payment: Joi.string().valid('card', 'online').required().messages({
       'any.only': 'Поле "payment" может быть только "card" или "online".',
@@ -23,15 +23,18 @@ export const createOrderValidator = celebrate({
       'any.required': 'Поле "total" обязательно для заполнения.',
     }),
     items: Joi.array().items(
-      Joi.string().length(24).hex().required().messages({
-        'string.length': 'Каждый элемент в "items" должен быть валидным ObjectId (24 символа).',
-        'string.hex': 'Каждый элемент в "items" должен быть в формате hex.',
-        'any.required': 'Каждый элемент в "items" обязателен.',
-      })
-    ).min(1).required().messages({
-      'array.min': 'Поле "items" должно содержать хотя бы один элемент.',
-      'any.required': 'Поле "items" обязательно для заполнения.',
-    }),
+      Joi.string().length(24).hex().required()
+        .messages({
+          'string.length': 'Каждый элемент в "items" должен быть валидным ObjectId (24 символа).',
+          'string.hex': 'Каждый элемент в "items" должен быть в формате hex.',
+          'any.required': 'Каждый элемент в "items" обязателен.',
+        }),
+    ).min(1).required()
+      .messages({
+        'array.min': 'Поле "items" должно содержать хотя бы один элемент.',
+        'any.required': 'Поле "items" обязательно для заполнения.',
+      }),
   }),
 });
 
+export default createOrderValidator;

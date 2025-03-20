@@ -1,12 +1,13 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 
-export const createProductValidator = celebrate({
+const createProductValidator = celebrate({
   [Segments.BODY]: Joi.object().keys({
-    title: Joi.string().min(2).max(30).required().messages({
-      'string.empty': 'Поле "title" обязательно для заполнения.',
-      'string.min': 'Минимальная длина поля "title" - 2 символа.',
-      'string.max': 'Максимальная длина поля "title" - 30 символов.',
-    }),
+    title: Joi.string().min(2).max(30).required()
+      .messages({
+        'string.empty': 'Поле "title" обязательно для заполнения.',
+        'string.min': 'Минимальная длина поля "title" - 2 символа.',
+        'string.max': 'Максимальная длина поля "title" - 30 символов.',
+      }),
     image: Joi.object().keys({
       fileName: Joi.string().required(),
       originalName: Joi.string().required(),
@@ -23,3 +24,5 @@ export const createProductValidator = celebrate({
     }),
   }),
 });
+
+export default createProductValidator;
